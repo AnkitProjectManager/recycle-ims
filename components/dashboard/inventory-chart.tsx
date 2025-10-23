@@ -14,7 +14,7 @@ const data = [
 
 export function InventoryChart() {
   return (
-    <Card className="border-0 bg-white/60 backdrop-blur-sm shadow-lg shadow-slate-200/50 hover:shadow-xl transition-all duration-300 dark:bg-slate-800/60 dark:shadow-slate-900/20">
+    <Card className="border-0 bg-gradient-to-br from-white to-green-50/30 backdrop-blur-sm shadow-lg shadow-green-100/50 hover:shadow-xl transition-all duration-300 dark:bg-slate-800/60 dark:shadow-slate-900/20">
       <CardHeader className="pb-4">
         <div className="flex items-center justify-between">
           <div>
@@ -26,18 +26,18 @@ export function InventoryChart() {
           <div className="flex gap-4 text-sm">
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded-full bg-gradient-to-r from-emerald-500 to-teal-600"></div>
-              <span className="text-slate-600 dark:text-slate-400">Current</span>
+              <span className="text-gray-700 font-semibold">Current</span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-full bg-gradient-to-r from-slate-400 to-slate-500"></div>
-              <span className="text-slate-600 dark:text-slate-400">Target</span>
+              <div className="w-3 h-3 rounded-full bg-purple-500"></div>
+              <span className="text-gray-700 font-semibold">Target</span>
             </div>
           </div>
         </div>
       </CardHeader>
       <CardContent className="pt-0">
-        <ResponsiveContainer width="100%" height={320}>
-          <BarChart data={data} margin={{ top: 10, right: 30, left: 0, bottom: 0 }} barGap={8}>
+        <ResponsiveContainer width="100%" height={360}>
+          <BarChart data={data} margin={{ top: 10, right: 30, left: 0, bottom: 60 }} barGap={8}>
             <CartesianGrid 
               strokeDasharray="3 3" 
               stroke="#e2e8f0" 
@@ -49,19 +49,22 @@ export function InventoryChart() {
               axisLine={false}
               tickLine={false}
               tick={{ 
-                fill: "#64748b", 
+                fill: "#374151", 
                 fontSize: 12,
-                fontWeight: 500 
+                fontWeight: 600 
               }} 
               dy={10}
+              angle={-45}
+              textAnchor="end"
+              height={80}
             />
             <YAxis 
               axisLine={false}
               tickLine={false}
               tick={{ 
-                fill: "#64748b", 
+                fill: "#374151", 
                 fontSize: 12,
-                fontWeight: 500 
+                fontWeight: 600 
               }}
               tickFormatter={(value) => `${(value / 1000).toFixed(0)}k`}
             />
@@ -76,9 +79,13 @@ export function InventoryChart() {
                 fontWeight: "500"
               }}
               labelStyle={{ 
-                color: "#1e293b",
-                fontWeight: "600",
+                color: "#111827",
+                fontWeight: "700",
                 marginBottom: "8px"
+              }}
+              itemStyle={{
+                color: "#374151",
+                fontWeight: "600"
               }}
               formatter={(value, name) => [
                 `${Number(value).toLocaleString()} lbs`,
@@ -99,12 +106,12 @@ export function InventoryChart() {
             />
             <defs>
               <linearGradient id="currentGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#10b981" />
-                <stop offset="100%" stopColor="#0d9488" />
+                <stop offset="0%" stopColor="#00D100" />
+                <stop offset="100%" stopColor="#00B000" />
               </linearGradient>
               <linearGradient id="targetGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#94a3b8" />
-                <stop offset="100%" stopColor="#64748b" />
+                <stop offset="0%" stopColor="#F3F4F6" />
+                <stop offset="100%" stopColor="#6B7280" />
               </linearGradient>
             </defs>
           </BarChart>

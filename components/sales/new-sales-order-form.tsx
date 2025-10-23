@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -37,15 +37,20 @@ interface LineItem {
 }
 
 export function NewSalesOrderForm() {
+  const [orderDate, setOrderDate] = useState("")
   const [customerId, setCustomerId] = useState("")
-  const [orderDate, setOrderDate] = useState(new Date().toISOString().split("T")[0])
+
+  // Set default date on client side only to avoid hydration mismatch
+  useEffect(() => {
+    setOrderDate(new Date().toISOString().split("T")[0])
+  }, [])
   const [expectedShipDate, setExpectedShipDate] = useState("")
   const [notes, setNotes] = useState("")
   const [lineItems, setLineItems] = useState<LineItem[]>([])
 
   const addLineItem = () => {
     const newItem: LineItem = {
-      id: Math.random().toString(36).substr(2, 9),
+      id: `item-${Date.now()}-${lineItems.length}`,
       materialId: "",
       materialName: "",
       quantity: 0,

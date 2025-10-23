@@ -55,7 +55,7 @@ function ChartContainer({
         data-slot="chart"
         data-chart={chartId}
         className={cn(
-          "[&_.recharts-cartesian-axis-tick_text]:fill-muted-foreground [&_.recharts-cartesian-grid_line[stroke='#ccc']]:stroke-border/50 [&_.recharts-curve.recharts-tooltip-cursor]:stroke-border [&_.recharts-polar-grid_[stroke='#ccc']]:stroke-border [&_.recharts-radial-bar-background-sector]:fill-muted [&_.recharts-rectangle.recharts-tooltip-cursor]:fill-muted [&_.recharts-reference-line_[stroke='#ccc']]:stroke-border flex aspect-video justify-center text-xs [&_.recharts-dot[stroke='#fff']]:stroke-transparent [&_.recharts-layer]:outline-hidden [&_.recharts-sector]:outline-hidden [&_.recharts-sector[stroke='#fff']]:stroke-transparent [&_.recharts-surface]:outline-hidden",
+          "[&_.recharts-cartesian-axis-tick_text]:fill-gray-700 [&_.recharts-cartesian-grid_line[stroke='#ccc']]:stroke-gray-200 [&_.recharts-curve.recharts-tooltip-cursor]:stroke-green-300 [&_.recharts-polar-grid_[stroke='#ccc']]:stroke-gray-200 [&_.recharts-radial-bar-background-sector]:fill-green-50 [&_.recharts-rectangle.recharts-tooltip-cursor]:fill-green-50 [&_.recharts-reference-line_[stroke='#ccc']]:stroke-gray-200 flex aspect-video justify-center text-xs text-gray-900 [&_.recharts-dot[stroke='#fff']]:stroke-transparent [&_.recharts-layer]:outline-hidden [&_.recharts-sector]:outline-hidden [&_.recharts-sector[stroke='#fff']]:stroke-transparent [&_.recharts-surface]:outline-hidden [&_.recharts-text]:fill-gray-700 bg-gradient-to-br from-white to-green-50/20",
           className,
         )}
         {...props}
@@ -118,14 +118,21 @@ function ChartTooltipContent({
   color,
   nameKey,
   labelKey,
-}: React.ComponentProps<typeof RechartsPrimitive.Tooltip> &
-  React.ComponentProps<'div'> & {
-    hideLabel?: boolean
-    hideIndicator?: boolean
-    indicator?: 'line' | 'dot' | 'dashed'
-    nameKey?: string
-    labelKey?: string
-  }) {
+}: {
+  active?: boolean
+  payload?: any[]
+  className?: string
+  hideLabel?: boolean
+  hideIndicator?: boolean
+  indicator?: 'line' | 'dot' | 'dashed'
+  label?: string
+  labelFormatter?: (value: any, payload: any[]) => React.ReactNode
+  labelClassName?: string
+  formatter?: (value: any, name: string, props: any, index: number, payload: any) => React.ReactNode
+  color?: string
+  nameKey?: string
+  labelKey?: string
+}) {
   const { config } = useChart()
 
   const tooltipLabel = React.useMemo(() => {
@@ -173,7 +180,7 @@ function ChartTooltipContent({
   return (
     <div
       className={cn(
-        'border-border/50 bg-background grid min-w-[8rem] items-start gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs shadow-xl',
+        'bg-white/95 backdrop-blur border border-green-200 grid min-w-[8rem] items-start gap-1.5 rounded-lg px-2.5 py-1.5 text-xs shadow-xl text-gray-900',
         className,
       )}
     >
@@ -228,7 +235,7 @@ function ChartTooltipContent({
                   >
                     <div className="grid gap-1.5">
                       {nestLabel ? tooltipLabel : null}
-                      <span className="text-muted-foreground">
+                      <span className="text-gray-600 font-medium">
                         {itemConfig?.label || item.name}
                       </span>
                     </div>
@@ -256,8 +263,9 @@ function ChartLegendContent({
   payload,
   verticalAlign = 'bottom',
   nameKey,
-}: React.ComponentProps<'div'> &
-  Pick<RechartsPrimitive.LegendProps, 'payload' | 'verticalAlign'> & {
+}: React.ComponentProps<'div'> & {
+    payload?: any[]
+    verticalAlign?: 'top' | 'bottom'
     hideIcon?: boolean
     nameKey?: string
   }) {
@@ -283,7 +291,7 @@ function ChartLegendContent({
           <div
             key={item.value}
             className={
-              '[&>svg]:text-muted-foreground flex items-center gap-1.5 [&>svg]:h-3 [&>svg]:w-3'
+              'flex items-center gap-1.5 text-gray-700 font-medium [&>svg]:h-3 [&>svg]:w-3 [&>svg]:text-gray-600'
             }
           >
             {itemConfig?.icon && !hideIcon ? (

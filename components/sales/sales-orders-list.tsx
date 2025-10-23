@@ -73,7 +73,9 @@ const statusConfig = {
   shipped: { label: "Shipped", variant: "default" as const },
   completed: { label: "Completed", variant: "default" as const },
   cancelled: { label: "Cancelled", variant: "destructive" as const },
-}
+} as const
+
+type StatusKey = keyof typeof statusConfig
 
 export function SalesOrdersList() {
   const [searchTerm, setSearchTerm] = useState("")
@@ -118,10 +120,10 @@ export function SalesOrdersList() {
               <TableRow key={order.id}>
                 <TableCell className="font-medium">{order.orderNumber}</TableCell>
                 <TableCell>{order.customer}</TableCell>
-                <TableCell>{new Date(order.date).toLocaleDateString()}</TableCell>
+                <TableCell>{order.date}</TableCell>
                 <TableCell>{order.items}</TableCell>
                 <TableCell>
-                  <Badge variant={statusConfig[order.status].variant}>{statusConfig[order.status].label}</Badge>
+                  <Badge variant={statusConfig[order.status as StatusKey].variant}>{statusConfig[order.status as StatusKey].label}</Badge>
                 </TableCell>
                 <TableCell className="text-right">${order.total.toLocaleString()}</TableCell>
                 <TableCell>

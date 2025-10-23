@@ -78,7 +78,9 @@ const statusConfig = {
   received: { label: "Received", variant: "default" as const },
   completed: { label: "Completed", variant: "default" as const },
   cancelled: { label: "Cancelled", variant: "destructive" as const },
-}
+} as const
+
+type StatusKey = keyof typeof statusConfig
 
 export function PurchaseOrdersList() {
   const [searchTerm, setSearchTerm] = useState("")
@@ -124,11 +126,11 @@ export function PurchaseOrdersList() {
               <TableRow key={po.id}>
                 <TableCell className="font-medium">{po.poNumber}</TableCell>
                 <TableCell>{po.vendor}</TableCell>
-                <TableCell>{new Date(po.date).toLocaleDateString()}</TableCell>
-                <TableCell>{new Date(po.expectedDelivery).toLocaleDateString()}</TableCell>
+                <TableCell>{po.date}</TableCell>
+                <TableCell>{po.expectedDelivery}</TableCell>
                 <TableCell>{po.items}</TableCell>
                 <TableCell>
-                  <Badge variant={statusConfig[po.status].variant}>{statusConfig[po.status].label}</Badge>
+                  <Badge variant={statusConfig[po.status as StatusKey].variant}>{statusConfig[po.status as StatusKey].label}</Badge>
                 </TableCell>
                 <TableCell className="text-right">${po.total.toLocaleString()}</TableCell>
                 <TableCell>

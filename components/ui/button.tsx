@@ -5,28 +5,24 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/lib/utils'
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl text-sm font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ola-primary focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
-  default: 'bg-[color:var(--primary)] text-[color:var(--primary-foreground)] hover:bg-[color:var(--primary)/0.9] focus-visible:ring-[color:var(--ring)]/50',
-        destructive:
-          'bg-destructive text-white hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60',
-        outline:
-          'border bg-[color:var(--background)] shadow-xs hover:bg-[color:var(--accent)] hover:text-[color:var(--accent-foreground)] dark:bg-[color:var(--input)]/30 dark:border-[color:var(--input)] dark:hover:bg-[color:var(--input)]/50',
-        secondary:
-          'bg-[color:var(--secondary)] text-[color:var(--secondary-foreground)] hover:bg-[color:var(--secondary)/0.8]',
-        ghost:
-          'hover:bg-[color:var(--accent)] hover:text-[color:var(--accent-foreground)] dark:hover:bg-[color:var(--accent)]/50',
-        link: 'text-[color:var(--primary)] underline-offset-4 hover:underline',
+        default: 'bg-green-500 text-white shadow-lg hover:bg-green-600 hover:shadow-xl hover:scale-105 active:scale-95 font-semibold',
+        destructive: 'bg-red-500 text-white shadow-lg hover:bg-red-600 hover:shadow-xl hover:scale-105 active:scale-95 font-semibold',
+        outline: 'border-2 border-gray-200 bg-white text-gray-700 hover:border-green-500 hover:text-green-600 hover:bg-green-50 active:scale-95 font-semibold',
+        secondary: 'bg-gray-100 text-gray-800 hover:bg-gray-200 hover:scale-105 active:scale-95 font-semibold',
+        ghost: 'text-gray-700 hover:bg-gray-100 hover:text-gray-900 rounded-xl active:scale-95 font-semibold',
+        link: 'text-green-600 underline-offset-4 hover:underline hover:text-green-700 font-semibold',
       },
       size: {
-        default: 'h-9 px-4 py-2 has-[>svg]:px-3',
-        sm: 'h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5',
-        lg: 'h-10 rounded-md px-6 has-[>svg]:px-4',
-        icon: 'size-9',
-        'icon-sm': 'size-8',
-        'icon-lg': 'size-10',
+        default: 'h-11 px-6 py-2.5 has-[>svg]:px-5',
+        sm: 'h-9 rounded-lg gap-1.5 px-4 text-xs has-[>svg]:px-3',
+        lg: 'h-12 rounded-xl px-8 text-base has-[>svg]:px-6',
+        icon: 'size-11 rounded-xl',
+        'icon-sm': 'size-9 rounded-lg',
+        'icon-lg': 'size-12 rounded-xl',
       },
     },
     defaultVariants: {

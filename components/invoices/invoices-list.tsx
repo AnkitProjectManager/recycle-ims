@@ -76,7 +76,9 @@ const statusConfig = {
   paid: { label: "Paid", variant: "default" as const },
   overdue: { label: "Overdue", variant: "destructive" as const },
   cancelled: { label: "Cancelled", variant: "destructive" as const },
-}
+} as const
+
+type StatusKey = keyof typeof statusConfig
 
 export function InvoicesList() {
   const [searchTerm, setSearchTerm] = useState("")
@@ -121,10 +123,10 @@ export function InvoicesList() {
               <TableRow key={invoice.id}>
                 <TableCell className="font-medium">{invoice.invoiceNumber}</TableCell>
                 <TableCell>{invoice.customer}</TableCell>
-                <TableCell>{new Date(invoice.date).toLocaleDateString()}</TableCell>
-                <TableCell>{new Date(invoice.dueDate).toLocaleDateString()}</TableCell>
+                <TableCell>{invoice.date}</TableCell>
+                <TableCell>{invoice.dueDate}</TableCell>
                 <TableCell>
-                  <Badge variant={statusConfig[invoice.status].variant}>{statusConfig[invoice.status].label}</Badge>
+                  <Badge variant={statusConfig[invoice.status as StatusKey].variant}>{statusConfig[invoice.status as StatusKey].label}</Badge>
                 </TableCell>
                 <TableCell className="text-right">${invoice.total.toLocaleString()}</TableCell>
                 <TableCell>

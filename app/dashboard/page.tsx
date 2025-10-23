@@ -9,18 +9,29 @@ import { Skeleton } from "@/components/ui/skeleton"
 
 export default function DashboardPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-emerald-50/40 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+    <div className="min-h-screen bg-gray-50">
       <DashboardHeader />
 
-      <main className="container mx-auto px-4 py-8 space-y-8">
-        {/* Hero Section */}
-        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-blue-600 via-blue-700 to-emerald-600 p-8 text-white shadow-2xl shadow-blue-500/20">
-          <div className="relative z-10">
-            <h1 className="text-4xl font-bold tracking-tight mb-2">Dashboard</h1>
-            <p className="text-blue-100 text-lg">Welcome back! Here's what's happening with your recycling operations today.</p>
+      <main className="max-w-8xl mx-auto px-6 py-8 space-y-8">
+        {/* Hero Section - Clean Ola style */}
+        <div className="bg-white rounded-2xl border border-gray-200 p-8 shadow-sm">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900 mb-2">Good morning, John! 👋</h1>
+              <p className="text-gray-600 text-lg">Here's what's happening with your recycling operations today.</p>
+            </div>
+            <div className="hidden md:flex items-center gap-4">
+              <div className="text-center">
+                <div className="text-2xl font-bold text-ola-primary">94%</div>
+                <div className="text-sm text-gray-500">Efficiency</div>
+              </div>
+              <div className="w-px h-12 bg-gray-200"></div>
+              <div className="text-center">
+                <div className="text-2xl font-bold text-gray-900">$452K</div>
+                <div className="text-sm text-gray-500">Revenue</div>
+              </div>
+            </div>
           </div>
-          <div className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-white/10 blur-2xl"></div>
-          <div className="absolute -left-4 -bottom-4 h-24 w-24 rounded-full bg-emerald-400/20 blur-xl"></div>
         </div>
 
         {/* KPI Cards */}

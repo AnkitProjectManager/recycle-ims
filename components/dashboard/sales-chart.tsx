@@ -15,7 +15,7 @@ const data = [
 
 export function SalesChart() {
   return (
-    <Card className="border-0 bg-white/60 backdrop-blur-sm shadow-lg shadow-slate-200/50 hover:shadow-xl transition-all duration-300 dark:bg-slate-800/60 dark:shadow-slate-900/20">
+    <Card className="border-0 bg-gradient-to-br from-white to-green-50/30 backdrop-blur-sm shadow-lg shadow-green-100/50 hover:shadow-xl transition-all duration-300 dark:bg-slate-800/60 dark:shadow-slate-900/20">
       <CardHeader className="pb-4">
         <div className="flex items-center justify-between">
           <div>
@@ -26,12 +26,12 @@ export function SalesChart() {
           </div>
           <div className="flex gap-4 text-sm">
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-full bg-gradient-to-r from-blue-500 to-blue-600"></div>
-              <span className="text-slate-600 dark:text-slate-400">Revenue</span>
+              <div className="w-3 h-3 rounded-full bg-green-500"></div>
+              <span className="text-gray-700 font-semibold">Revenue</span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-full bg-gradient-to-r from-rose-500 to-rose-600"></div>
-              <span className="text-slate-600 dark:text-slate-400">COGS</span>
+              <div className="w-3 h-3 rounded-full bg-orange-500"></div>
+              <span className="text-gray-700 font-semibold">COGS</span>
             </div>
           </div>
         </div>
@@ -41,12 +41,12 @@ export function SalesChart() {
           <AreaChart data={data} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
             <defs>
               <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3} />
-                <stop offset="95%" stopColor="#3b82f6" stopOpacity={0.01} />
+                <stop offset="5%" stopColor="#00D100" stopOpacity={0.3} />
+                <stop offset="95%" stopColor="#00D100" stopOpacity={0.01} />
               </linearGradient>
               <linearGradient id="colorCogs" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#f43f5e" stopOpacity={0.3} />
-                <stop offset="95%" stopColor="#f43f5e" stopOpacity={0.01} />
+                <stop offset="5%" stopColor="#f97316" stopOpacity={0.3} />
+                <stop offset="95%" stopColor="#f97316" stopOpacity={0.01} />
               </linearGradient>
             </defs>
             <CartesianGrid 
@@ -60,9 +60,9 @@ export function SalesChart() {
               axisLine={false}
               tickLine={false}
               tick={{ 
-                fill: "#64748b", 
+                fill: "#374151", 
                 fontSize: 12,
-                fontWeight: 500 
+                fontWeight: 600 
               }} 
               dy={10}
             />
@@ -70,9 +70,9 @@ export function SalesChart() {
               axisLine={false}
               tickLine={false}
               tick={{ 
-                fill: "#64748b", 
+                fill: "#374151", 
                 fontSize: 12,
-                fontWeight: 500 
+                fontWeight: 600 
               }}
               tickFormatter={(value) => `$${(value / 1000).toFixed(0)}k`}
             />
@@ -87,9 +87,13 @@ export function SalesChart() {
                 fontWeight: "500"
               }}
               labelStyle={{ 
-                color: "#1e293b",
-                fontWeight: "600",
+                color: "#111827",
+                fontWeight: "700",
                 marginBottom: "8px"
+              }}
+              itemStyle={{
+                color: "#374151",
+                fontWeight: "600"
               }}
               formatter={(value, name) => [
                 `$${Number(value).toLocaleString()}`,
@@ -99,7 +103,7 @@ export function SalesChart() {
             <Area
               type="monotone"
               dataKey="revenue"
-              stroke="#3b82f6"
+              stroke="#00D100"
               strokeWidth={3}
               fillOpacity={1}
               fill="url(#colorRevenue)"
@@ -108,7 +112,7 @@ export function SalesChart() {
             <Area
               type="monotone"
               dataKey="cogs"
-              stroke="#f43f5e"
+              stroke="#f97316"
               strokeWidth={3}
               fillOpacity={1}
               fill="url(#colorCogs)"

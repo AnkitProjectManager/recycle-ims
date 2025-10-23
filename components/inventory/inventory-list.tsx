@@ -12,8 +12,8 @@ import { Search, MoreVertical, Edit, Trash2, Eye, Filter, Download } from "lucid
 
 export function InventoryList() {
   const [searchQuery, setSearchQuery] = useState("")
-  const [categoryFilter, setCategoryFilter] = useState("")
-  const [statusFilter, setStatusFilter] = useState("")
+  const [categoryFilter, setCategoryFilter] = useState("all-categories")
+  const [statusFilter, setStatusFilter] = useState("all-status")
 
   const materials = [
     {
@@ -76,31 +76,31 @@ export function InventoryList() {
   const filteredMaterials = materials.filter((material) => {
     const matchesSearch = material.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          material.id.toLowerCase().includes(searchQuery.toLowerCase())
-    const matchesCategory = !categoryFilter || material.category === categoryFilter
-    const matchesStatus = !statusFilter || material.status === statusFilter
+    const matchesCategory = categoryFilter === "all-categories" || material.category === categoryFilter
+    const matchesStatus = statusFilter === "all-status" || material.status === statusFilter
     return matchesSearch && matchesCategory && matchesStatus
   })
 
   const getStatusColor = (status: string) => {
     switch (status) {
       case "In Stock":
-        return "bg-green-500/20 text-green-400 border-green-500/30"
+        return "bg-green-50 text-green-700 border-green-200"
       case "Low Stock":
-        return "bg-yellow-500/20 text-yellow-400 border-yellow-500/30"
+        return "bg-yellow-50 text-yellow-700 border-yellow-200"
       case "Out of Stock":
-        return "bg-red-500/20 text-red-400 border-red-500/30"
+        return "bg-red-50 text-red-700 border-red-200"
       default:
-        return "bg-muted text-muted-foreground border-border"
+        return "bg-gray-50 text-gray-700 border-gray-200"
     }
   }
 
   return (
-    <Card className="border border-border bg-card/80 backdrop-blur-sm">
-      <CardHeader className="border-b border-border bg-gradient-to-r from-muted/20 to-primary/5">
+    <Card className="border border-border bg-surface shadow-sm">
+      <CardHeader className="border-b border-border bg-surface/50">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
           <div>
-            <CardTitle className="text-2xl font-bold text-foreground">Material Inventory</CardTitle>
-            <p className="text-muted-foreground mt-1">Manage and track all materials in your inventory</p>
+            <CardTitle className="text-lg font-semibold text-foreground">Material Inventory</CardTitle>
+            <p className="text-muted-foreground mt-1 text-sm">Manage and track all materials in your inventory</p>
           </div>
           
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -123,7 +123,7 @@ export function InventoryList() {
                   <SelectValue placeholder="Category" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All Categories</SelectItem>
+                  <SelectItem value="all-categories">All Categories</SelectItem>
                   <SelectItem value="Ferrous">Ferrous</SelectItem>
                   <SelectItem value="Non-Ferrous">Non-Ferrous</SelectItem>
                 </SelectContent>
@@ -134,14 +134,18 @@ export function InventoryList() {
                   <SelectValue placeholder="Status" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All Status</SelectItem>
+                  <SelectItem value="all-status">All Status</SelectItem>
                   <SelectItem value="In Stock">In Stock</SelectItem>
                   <SelectItem value="Low Stock">Low Stock</SelectItem>
                   <SelectItem value="Out of Stock">Out of Stock</SelectItem>
                 </SelectContent>
               </Select>
               
-              <Button variant="outline" size="icon" className="bg-white/80 border-slate-200 hover:bg-slate-50 dark:bg-slate-700/80">
+              <Button 
+                variant="outline" 
+                size="icon" 
+                className="hover:bg-accent hover:text-accent-foreground active:bg-accent/80 transition-colors duration-200"
+              >
                 <Download className="h-4 w-4" />
               </Button>
             </div>
@@ -152,21 +156,21 @@ export function InventoryList() {
         <div className="overflow-x-auto">
           <Table>
             <TableHeader>
-              <TableRow className="bg-slate-50/80 hover:bg-slate-50/90 border-slate-200 dark:bg-slate-700/50 dark:border-slate-600">
-                <TableHead className="font-bold text-slate-700 dark:text-slate-300">Material ID</TableHead>
-                <TableHead className="font-bold text-slate-700 dark:text-slate-300">Name & Category</TableHead>
-                <TableHead className="font-bold text-slate-700 dark:text-slate-300">Quantity</TableHead>
-                <TableHead className="font-bold text-slate-700 dark:text-slate-300">Location</TableHead>
-                <TableHead className="font-bold text-slate-700 dark:text-slate-300">Value</TableHead>
-                <TableHead className="font-bold text-slate-700 dark:text-slate-300">Status</TableHead>
-                <TableHead className="text-right font-bold text-slate-700 dark:text-slate-300">Actions</TableHead>
+              <TableRow className="border-b border-border">
+                <TableHead className="font-semibold text-foreground">Material ID</TableHead>
+                <TableHead className="font-semibold text-foreground">Name & Category</TableHead>
+                <TableHead className="font-semibold text-foreground">Quantity</TableHead>
+                <TableHead className="font-semibold text-foreground">Location</TableHead>
+                <TableHead className="font-semibold text-foreground">Value</TableHead>
+                <TableHead className="font-semibold text-foreground">Status</TableHead>
+                <TableHead className="text-right font-semibold text-foreground">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filteredMaterials.length === 0 ? (
                 <TableRow>
                   <TableCell colSpan={7} className="text-center py-12">
-                    <div className="flex flex-col items-center gap-2 text-slate-500">
+                    <div className="flex flex-col items-center gap-2 text-muted-foreground">
                       <Search className="h-8 w-8" />
                       <p className="font-medium">No materials found</p>
                       <p className="text-sm">Try adjusting your search or filters</p>
@@ -177,15 +181,15 @@ export function InventoryList() {
                 filteredMaterials.map((material) => (
                   <TableRow 
                     key={material.id} 
-                    className="hover:bg-slate-50/60 transition-colors border-slate-200/60 dark:hover:bg-slate-700/30 dark:border-slate-600/60"
+                    className="hover:bg-accent/50 transition-colors border-border"
                   >
-                    <TableCell className="font-mono font-medium text-blue-600 dark:text-blue-400">
+                    <TableCell className="font-mono font-medium text-primary">
                       {material.id}
                     </TableCell>
                     <TableCell>
                       <div className="space-y-1">
-                        <div className="font-semibold text-slate-900 dark:text-slate-100">{material.name}</div>
-                        <div className="text-sm text-slate-500 dark:text-slate-400">{material.category}</div>
+                        <div className="font-semibold text-foreground">{material.name}</div>
+                        <div className="text-sm text-gray-600 font-medium">{material.category}</div>
                       </div>
                     </TableCell>
                     <TableCell>
@@ -193,18 +197,18 @@ export function InventoryList() {
                         <div className="font-semibold text-foreground">
                           {material.quantity.toLocaleString()} {material.unit}
                         </div>
-                        <div className="text-xs text-muted-foreground">
+                        <div className="text-xs text-gray-600 font-medium">
                           Updated {material.lastUpdated.split('T')[0]}
                         </div>
                       </div>
                     </TableCell>
                     <TableCell>
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary border border-primary/20">
+                      <span className="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-gray-100 text-gray-700 border border-gray-200">
                         {material.location}
                       </span>
                     </TableCell>
                     <TableCell>
-                      <span className="font-bold text-green-400">
+                      <span className="font-semibold text-foreground">
                         ${material.value.toLocaleString()}
                       </span>
                     </TableCell>
@@ -216,7 +220,11 @@ export function InventoryList() {
                     <TableCell className="text-right">
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="icon" className="h-8 w-8">
+                          <Button 
+                            variant="outline" 
+                            size="icon" 
+                            className="h-8 w-8"
+                          >
                             <MoreVertical className="h-4 w-4" />
                           </Button>
                         </DropdownMenuTrigger>
@@ -244,12 +252,12 @@ export function InventoryList() {
         </div>
         
         {filteredMaterials.length > 0 && (
-          <div className="flex items-center justify-between px-6 py-4 border-t border-slate-200/60 bg-slate-50/30 dark:border-slate-600/60 dark:bg-slate-700/30">
-            <div className="text-sm text-slate-600 dark:text-slate-400">
+          <div className="flex items-center justify-between px-6 py-4 border-t border-gray-200 bg-gray-50/50">
+            <div className="text-sm text-gray-700 font-medium">
               Showing {filteredMaterials.length} of {materials.length} materials
             </div>
-            <div className="text-sm font-medium text-slate-700 dark:text-slate-300">
-              Total Value: <span className="text-emerald-600 dark:text-emerald-400">
+            <div className="text-sm font-semibold text-gray-800">
+              Total Value: <span className="text-green-600" style={{color: '#00D100'}}>
                 ${filteredMaterials.reduce((sum, material) => sum + material.value, 0).toLocaleString()}
               </span>
             </div>
